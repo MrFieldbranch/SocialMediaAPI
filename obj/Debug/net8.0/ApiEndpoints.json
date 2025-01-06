@@ -1,0 +1,467 @@
+[
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.ConversationController",
+    "Method": "GetConversation",
+    "RelativePath": "Conversation/{otherUserId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SocialMediaAPI23Okt.DTOs.ConversationResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "SendFriendRequest",
+    "RelativePath": "FriendRequest/{otherUserId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "AcceptFriendRequest",
+    "RelativePath": "FriendRequest/acceptrequest/{otherUserId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "GetFriendRequestsFromMe",
+    "RelativePath": "FriendRequest/allpendingfromme",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SocialMediaAPI23Okt.DTOs.PendingFriendResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "GetFriendRequestsToMe",
+    "RelativePath": "FriendRequest/allpendingtome",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SocialMediaAPI23Okt.DTOs.PendingFriendResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "CancelAndDeleteFriendship",
+    "RelativePath": "FriendRequest/cancelfriendship/{otherUserId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "DeclineAndDeleteFriendRequest",
+    "RelativePath": "FriendRequest/declinerequest/{otherUserId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.FriendRequestController",
+    "Method": "WithdrawAndDeleteFriendRequest",
+    "RelativePath": "FriendRequest/withdrawrequest/{otherUserId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "GetAllOfTheInterests",
+    "RelativePath": "Interest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SocialMediaAPI23Okt.DTOs.GetInterestResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "CreateNewInterest",
+    "RelativePath": "Interest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SocialMediaAPI23Okt.DTOs.CreateNewInterestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "AddInterestToMyself",
+    "RelativePath": "Interest/{interestId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "interestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "RemoveInterestFromMyself",
+    "RelativePath": "Interest/{interestId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "interestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "GetInterestsNotOwnedByMe",
+    "RelativePath": "Interest/interestsnotownedbyme",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SocialMediaAPI23Okt.DTOs.GetInterestResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.InterestController",
+    "Method": "GetMyOwnInterests",
+    "RelativePath": "Interest/myowninterests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SocialMediaAPI23Okt.DTOs.GetInterestResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.LoginController",
+    "Method": "Login",
+    "RelativePath": "Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SocialMediaAPI23Okt.DTOs.UserLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.MessageController",
+    "Method": "SendMessage",
+    "RelativePath": "Message/{otherUserId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "messageRequest",
+        "Type": "SocialMediaAPI23Okt.DTOs.MessageRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.PersonalInfoController",
+    "Method": "UpdatePersonalInfoForUser",
+    "RelativePath": "PersonalInfo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SocialMediaAPI23Okt.DTOs.UpdatePersonalInfoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.PostToPublicBoardController",
+    "Method": "GetAllPostsFromAllUsers",
+    "RelativePath": "PostToPublicBoard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SocialMediaAPI23Okt.DTOs.PublicPostResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.PostToPublicBoardController",
+    "Method": "CreatePostToPublicBoard",
+    "RelativePath": "PostToPublicBoard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SocialMediaAPI23Okt.DTOs.NewPostToPublicBoardRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.RegistrationController",
+    "Method": "CreateNewUser",
+    "RelativePath": "Registration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SocialMediaAPI23Okt.DTOs.CreateNewUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.UserController",
+    "Method": "GetUser",
+    "RelativePath": "User/{otherUserId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "otherUserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SocialMediaAPI23Okt.DTOs.DetailedUserResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.UserController",
+    "Method": "GetMySelf",
+    "RelativePath": "User/getmyowndata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SocialMediaAPI23Okt.DTOs.DetailedUserResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.UserController",
+    "Method": "GetStrangersSortedBySharedInterests",
+    "RelativePath": "User/getstrangersbasedoninterests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SocialMediaAPI23Okt.DTOs.UserWithSharedInterestsResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.UserController",
+    "Method": "GetMyFriends",
+    "RelativePath": "User/myfriends",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SocialMediaAPI23Okt.DTOs.BasicUserResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SocialMediaAPI23Okt.Controllers.UserController",
+    "Method": "GetStrangers",
+    "RelativePath": "User/strangers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SocialMediaAPI23Okt.DTOs.BasicUserResponse, SocialMediaAPI23Okt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
