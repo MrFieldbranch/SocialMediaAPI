@@ -29,7 +29,7 @@ namespace SocialMediaAPI23Okt.Controllers
             var response = await _conversationService.GetConversationAsync(myUserId, otherUserId);
 
             if (!response.Success)
-                return NoContent();
+                return NotFound("The conversation could not be found.");
             
             return Ok(response);
         }                
