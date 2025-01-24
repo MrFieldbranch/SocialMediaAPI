@@ -136,3 +136,4 @@ C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\refint\
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.pdb
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.genruntimeconfig.cache
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\ref\SocialMediaAPI23Okt.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.sourcelink.json

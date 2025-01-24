@@ -50,7 +50,7 @@ namespace SocialMediaAPI23Okt.Controllers
             return Ok(response);
         }
 
-        [HttpPost("{otherUserId:int}")]  // Lägg till / Ändra (angående ErrorType)
+        [HttpPost("{otherUserId:int}")]  
         public async Task<IActionResult> SendFriendRequest(int otherUserId)
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -58,15 +58,22 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _friendRequestService.SendFriendRequestAsync(myUserId, otherUserId);
+            try
+            {
+                bool response = await _friendRequestService.SendFriendRequestAsync(myUserId, otherUserId);
 
-            if (!response.Success)  // Fast det kan ju vara NotFound, för friendId. Fast jag verkar ju ha använt BadRequest för Interests.
-                return BadRequest(response.ErrorMessage);
+                if (!response)
+                    return NotFound("At least one of the users involved in this request is not found.");
 
-            return Ok();
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
-        [HttpPut("acceptrequest/{otherUserId:int}")]  // För att acceptera      Lägg till / Ändra (angående ErrorType)
+        [HttpPut("acceptrequest/{otherUserId:int}")]  
         public async Task<IActionResult> AcceptFriendRequest(int otherUserId)
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -74,15 +81,22 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _friendRequestService.AcceptFriendRequestAsync(myUserId, otherUserId);
+            try
+            {
+                bool response = await _friendRequestService.AcceptFriendRequestAsync(myUserId, otherUserId);
 
-            if (!response.Success)  // Fast det kan ju vara NotFound, för friendId. Fast jag verkar ju ha använt BadRequest för Interests. Jag kanske kan utöka OperationResponse.
-                return BadRequest(response.ErrorMessage);
+                if (!response)
+                    return NotFound("At least one of the users involved in this request is not found.");
 
-            return Ok();
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
-        [HttpDelete("declinerequest/{otherUserId:int}")]  // För att neka. Fast då behövs inte Declined längre i enumet.
+        [HttpDelete("declinerequest/{otherUserId:int}")]
         public async Task<IActionResult> DeclineAndDeleteFriendRequest(int otherUserId)
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -90,18 +104,19 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _friendRequestService.DeclineAndDeleteFriendRequestAsync(myUserId, otherUserId);
-
-            if (!response.Success)
+            try
             {
-                if (response.ErrorType == Enums.ErrorType.NotFound)
-                    return NotFound(response.ErrorMessage);
+                bool response = await _friendRequestService.DeclineAndDeleteFriendRequestAsync(myUserId, otherUserId);
 
-                else if (response.ErrorType == Enums.ErrorType.ServerError)
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.ErrorMessage);
+                if (!response)
+                    return NotFound("At least one of the users involved in this request is not found.");
+
+                return NoContent();
             }
-
-            return NoContent();
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         [HttpDelete("withdrawrequest/{otherUserId:int}")]
@@ -112,18 +127,19 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _friendRequestService.WithdrawAndDeleteFriendRequestAsync(myUserId, otherUserId);
-            
-            if (!response.Success)
+            try
             {
-                if (response.ErrorType == Enums.ErrorType.NotFound)
-                    return NotFound(response.ErrorMessage);
+                bool response = await _friendRequestService.WithdrawAndDeleteFriendRequestAsync(myUserId, otherUserId);
 
-                else if (response.ErrorType == Enums.ErrorType.ServerError)
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.ErrorMessage);
+                if (!response)
+                    return NotFound("At least one of the users involved in this request is not found.");
+
+                return NoContent();
             }
-
-            return NoContent();
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         [HttpDelete("cancelfriendship/{otherUserId:int}")] 
@@ -134,18 +150,19 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _friendRequestService.CancelAndDeleteFriendshipAsync(myUserId, otherUserId);
-
-            if (!response.Success)
+            try
             {
-                if (response.ErrorType == Enums.ErrorType.NotFound)
-                    return NotFound(response.ErrorMessage);
+                bool response = await _friendRequestService.CancelAndDeleteFriendshipAsync(myUserId, otherUserId);
 
-                else if (response.ErrorType == Enums.ErrorType.ServerError)
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.ErrorMessage);
+                if (!response)
+                    return NotFound("At least one of the users involved in this request is not found.");
+
+                return NoContent();
             }
-
-            return NoContent();
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }        
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SocialMediaAPI23Okt.DTOs
 {
-    public class GetInterestResponse
+    public class InterestResponse
     {
         public int Id { get; set; }        
 

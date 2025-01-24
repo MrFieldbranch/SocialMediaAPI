@@ -19,7 +19,7 @@ namespace SocialMediaAPI23Okt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetInterestResponse>>> GetAllOfTheInterests()    // myUserId?????
+        public async Task<ActionResult<IEnumerable<InterestResponse>>> GetAllOfTheInterests()    // myUserId?????
         {
             var interests = await _interestService.GetAllOfTheInterestsAsync();
 
@@ -28,7 +28,7 @@ namespace SocialMediaAPI23Okt.Controllers
 
 
         [HttpGet("myowninterests")]
-        public async Task<ActionResult<IEnumerable<GetInterestResponse>>> GetMyOwnInterests()
+        public async Task<ActionResult<IEnumerable<InterestResponse>>> GetMyOwnInterests()
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -41,7 +41,7 @@ namespace SocialMediaAPI23Okt.Controllers
         }
 
         [HttpGet("interestsnotownedbyme")] 
-        public async Task<ActionResult<IEnumerable<GetInterestResponse>>> GetInterestsNotOwnedByMe()
+        public async Task<ActionResult<IEnumerable<InterestResponse>>> GetInterestsNotOwnedByMe()
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -54,19 +54,31 @@ namespace SocialMediaAPI23Okt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewInterest(CreateNewInterestRequest request)  // myUserId?????
+        public async Task<IActionResult> CreateNewInterest(CreateNewInterestRequest request)
         {
-            var newInterestResponse = await _interestService.CreateNewInterestAsync(HttpContext, request);
+            var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (!newInterestResponse.Success)
+            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
+                return Unauthorized("User ID is invalid or missing from the token.");
+
+            try
             {
-                if (newInterestResponse.ErrorByUser)
-                    return BadRequest(newInterestResponse.ErrorMessage);
+                var newInterestResponse = await _interestService.CreateNewInterestAsync(myUserId, request);
+                if (newInterestResponse == null)
+                    return NotFound("User not found.");
 
-                return Unauthorized(newInterestResponse.ErrorMessage);
+                return Created($"/interest/{newInterestResponse.Id}", newInterestResponse);
+
             }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
 
-            return Created($"/interest/{newInterestResponse.Id}", newInterestResponse);        
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);       
+            }                     
         }
 
         [HttpPost("{interestId:int}")]
@@ -77,12 +89,19 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _interestService.AddInterestToMyselfAsync(myUserId, interestId);
+            try
+            {
+                bool response = await _interestService.AddInterestToMyselfAsync(myUserId, interestId);
 
-            if (!response.Success)
-                return BadRequest(response.ErrorMessage);
+                if (!response)
+                    return NotFound("One (or both) of either the user or the interest is not found.");
 
-            return Ok(); 
+                return Ok();
+            }
+            catch(InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            } 
         }
 
         [HttpDelete("{interestId:int}")]
@@ -92,13 +111,19 @@ namespace SocialMediaAPI23Okt.Controllers
 
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
+            try
+            {
+                bool response = await _interestService.RemoveInterestFromMyselfAsync(myUserId, interestId);
 
-            var response = await _interestService.RemoveInterestFromMyselfAsync(myUserId, interestId);
+                if (!response)
+                    return NotFound("User not found.");
 
-            if (!response.Success)
-                return BadRequest(response.ErrorMessage);
-
-            return NoContent();
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }        
     }
 }

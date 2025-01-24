@@ -132,7 +132,7 @@ namespace SocialMediaAPI23Okt.Services
                     //    Content = p.Content,
                     //    CreatedAt = p.CreatedAt
                     //}).ToList(),
-                    Interests = otherUser.Interests.Select(i => new GetInterestResponse
+                    Interests = otherUser.Interests.Select(i => new InterestResponse
                     {
                         Id = i.Id,
                         Name = i.Name
@@ -204,21 +204,21 @@ namespace SocialMediaAPI23Okt.Services
                 //    Content = p.Content,
                 //    CreatedAt = p.CreatedAt
                 //}).ToList(),
-                Interests = myUser.Interests.Select(i => new GetInterestResponse 
+                Interests = myUser.Interests.Select(i => new InterestResponse 
                 { 
                     Id = i.Id,
                     Name = i.Name
                 }).ToList(),
-                ConversationsAsUser1 = myUser.ConversationsAsUser1.Select(c => new ConversationResponse 
-                {
-                    Id = c.Id,
-                    ConversationPartnerId = c.User2Id
-                }).ToList(),
-                ConversationsAsUser2 = myUser.ConversationsAsUser2.Select(c => new ConversationResponse
-                {
-                    Id= c.Id,
-                    ConversationPartnerId = c.User1Id
-                }).ToList(),
+                //ConversationsAsUser1 = myUser.ConversationsAsUser1.Select(c => new ConversationResponse 
+                //{
+                //    Id = c.Id,
+                //    ConversationPartnerId = c.User2Id
+                //}).ToList(),
+                //ConversationsAsUser2 = myUser.ConversationsAsUser2.Select(c => new ConversationResponse
+                //{
+                //    Id= c.Id,
+                //    ConversationPartnerId = c.User1Id
+                //}).ToList(),
                 //Friends = friends
                 //Friends = myUser.Friends.Select(f =>
                 //{

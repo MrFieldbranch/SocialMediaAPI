@@ -19,14 +19,26 @@ namespace SocialMediaAPI23Okt.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePersonalInfoForUser(UpdatePersonalInfoRequest request)   // myUserId?????
+        public async Task<IActionResult> UpdatePersonalInfoForUser(UpdatePersonalInfoRequest request)
         {
-            var updatePersonalInfoResponse = await _personalInfoService.UpdatePersonalInfoForUserAsync(HttpContext, request);
+            var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (!updatePersonalInfoResponse.Success)
-                return Unauthorized(updatePersonalInfoResponse.ErrorMessage);            
+            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
+                return Unauthorized("User ID is invalid or missing from the token.");
 
-            return Ok();            
+            try
+            {
+                bool updatePersonalInfoResponse = await _personalInfoService.UpdatePersonalInfoForUserAsync(myUserId, request);
+
+                if (!updatePersonalInfoResponse)
+                    return NotFound("User not found.");
+
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }                       
         }
     }
 }

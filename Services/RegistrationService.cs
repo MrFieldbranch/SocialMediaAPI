@@ -14,37 +14,35 @@ namespace SocialMediaAPI23Okt.Services
             _context = context;
         }
 
-        public async Task<OperationResponse?> RegisterNewUserAsync(CreateNewUserRequest request)
+        public async Task<bool> RegisterNewUserAsync(CreateNewUserRequest request)
         {
             var emailAlreadyExists = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (emailAlreadyExists != null) 
-                return null;
+                return false;
 
-            var newUser = new User
+            try
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Password = request.Password,
-                DateOfBirth = request.DateOfBirth,
-                Sex = request.Sex
-            };
+                var newUser = new User
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    Password = request.Password,
+                    DateOfBirth = request.DateOfBirth,
+                    Sex = request.Sex
+                };
 
-            _context.Users.Add(newUser);
+                _context.Users.Add(newUser);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return new OperationResponse
+                return true;
+            }
+            catch
             {
-                Success = true
-            };
-
-            //return new NewUserResponse
-            //{
-            //    Id = newUser.Id,
-            //    Email = newUser.Email,                
-            //};
+                throw new ArgumentException("One (or more) of 'FirstName', 'LastName', 'Email' or 'Password' is too long.");
+            }
         }
     }
 }

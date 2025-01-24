@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI23Okt.DTOs;
 using SocialMediaAPI23Okt.Services;
+using System.Security.Claims;
 
 namespace SocialMediaAPI23Okt.Controllers
 {
@@ -26,19 +28,26 @@ namespace SocialMediaAPI23Okt.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreatePostToPublicBoard(NewPostToPublicBoardRequest request)    // myUserId?????
+        public async Task<IActionResult> CreatePostToPublicBoard(NewPostToPublicBoardRequest request)
         {
-            var newPostToPublicBoardResponse = await _postToPublicBoardService.CreatePostToPublicBoardAsync(HttpContext, request);
+            var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (!newPostToPublicBoardResponse.Success)
+            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
+                return Unauthorized("User ID is invalid or missing from the token.");
+
+            try
             {
-                if (newPostToPublicBoardResponse.ErrorByUser)
-                    return BadRequest(newPostToPublicBoardResponse.ErrorMessage);
+                var newPostToPublicBoardResponse = await _postToPublicBoardService.CreatePostToPublicBoardAsync(myUserId, request);
 
-                return Unauthorized(newPostToPublicBoardResponse.ErrorMessage);
+                if (newPostToPublicBoardResponse == null)
+                    return NotFound("User not found.");
+
+                return Created($"/posttopublicboard/{newPostToPublicBoardResponse.Id}", newPostToPublicBoardResponse);
             }
-
-            return Ok(newPostToPublicBoardResponse);
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }

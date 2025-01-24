@@ -24,13 +24,13 @@ namespace SocialMediaAPI23Okt.DTOs
 
         public List<BasicUserResponse> Friends { get; set; } = [];
 
-        public List<GetInterestResponse> Interests { get; set; } = [];
+        public List<InterestResponse> Interests { get; set; } = [];
 
         public List<PublicPostResponse> PublicPosts { get; set; } = [];
 
-        public List<ConversationResponse> ConversationsAsUser1 { get; set; } = [];
+        //public List<ConversationResponse> ConversationsAsUser1 { get; set; } = [];
 
-        public List<ConversationResponse> ConversationsAsUser2 { get; set; } = [];
+        //public List<ConversationResponse> ConversationsAsUser2 { get; set; } = [];
 
     }
 }

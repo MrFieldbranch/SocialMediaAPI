@@ -10,7 +10,7 @@ namespace SocialMediaAPI23Okt.DTOs
 
         public List<MessageResponse> Messages { get; set; } = [];
 
-        public bool Success { get; set; }
+        
 
         //public string? ErrorMessage { get; set; }  // Tar bort denna. Väljer 204 No Content istället.
 

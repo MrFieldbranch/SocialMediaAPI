@@ -41,25 +41,12 @@ namespace SocialMediaAPI23Okt.Services
         }
 
 
-        public async Task<NewPostToPublicBoardResponse> CreatePostToPublicBoardAsync(HttpContext httpContext, NewPostToPublicBoardRequest request)
+        public async Task<PublicPostResponse?> CreatePostToPublicBoardAsync(int myUserId, NewPostToPublicBoardRequest request)
         {
-            var myUserIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
-                return new NewPostToPublicBoardResponse
-                {
-                    Success = false,
-                    ErrorMessage = "User ID is invalid or missing from the token."
-                };
-
             var myUser = await _context.Users.FindAsync(myUserId);
 
             if (myUser == null)
-                return new NewPostToPublicBoardResponse
-                {
-                    Success = false,
-                    ErrorMessage = "User not found."
-                };
+                return null;
 
             try
             {
@@ -75,24 +62,23 @@ namespace SocialMediaAPI23Okt.Services
 
                 await _context.SaveChangesAsync();
 
-                return new NewPostToPublicBoardResponse
+                return new PublicPostResponse
                 {
                     Id = newPostToPublicBoard.Id,
-                    Success = true,
                     Title = newPostToPublicBoard.Title,
                     Content = newPostToPublicBoard.Content,
                     CreatedAt = newPostToPublicBoard.CreatedAt,
-                    UserId = newPostToPublicBoard.UserId
+                    User = new BasicUserResponse
+                    {
+                        Id = myUser.Id,
+                        FirstName = myUser.FirstName,
+                        LastName = myUser.LastName
+                    }                        
                 };
             }
             catch
             {
-                return new NewPostToPublicBoardResponse
-                {
-                    Success = false,
-                    ErrorMessage = "The title or/and the content is too long.",
-                    ErrorByUser = true
-                };
+                throw new ArgumentException("The title or/and the content is too long.");                
             }
         }
     }

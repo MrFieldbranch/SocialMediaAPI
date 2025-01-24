@@ -14,43 +14,19 @@ namespace SocialMediaAPI23Okt.Services
             _context = context;
         }
 
-        public async Task<MessageResponse> SendMessageAsync(int myUserId, int otherUserId, MessageRequest messageRequest)
-        {
-            //var users = await _context.Users
-            //    .Where(u => u.Id == myUserId || u.Id == userId)
-            //    .ToListAsync();
+        public async Task<MessageResponse?> SendMessageAsync(int myUserId, int otherUserId, MessageRequest messageRequest)
+        {   
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            //if (users.Count < 2)
-            //    return new MessageResponse
-            //    {
-            //        Success = false,
-            //        ErrorMessage = "At least one of the users involved in this request does not exist.",
-            //        ErrorType = Enums.ErrorType.NotFound
-            //    };  
-            
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
-
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new MessageResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users involved in this request does not exist.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
-
+            if (users.Count != 2)
+                return null;                          
 
             var friendshipRecord = await _context.UserFriends.FirstOrDefaultAsync(uf =>
-                (uf.Status == Enums.FriendRequestStatus.Accepted) && ((uf.UserId == myUserId && uf.FriendId == otherUserId) || (uf.UserId == otherUserId && uf.FriendId == myUserId)));
+                (uf.Status == Enums.FriendRequestStatus.Accepted) && 
+                ((uf.UserId == myUserId && uf.FriendId == otherUserId) || (uf.UserId == otherUserId && uf.FriendId == myUserId)));
 
             if (friendshipRecord == null)
-                return new MessageResponse
-                {
-                    Success = false,
-                    ErrorMessage = "You are not friends with this user. Direct messaging requires an accepted friendship.",
-                    ErrorType = Enums.ErrorType.BadRequest
-                };
+                throw new InvalidOperationException("You are not friends with this user. Direct messaging requires an accepted friendship.");                
             
             var newMessage = new Message
             {
@@ -75,18 +51,12 @@ namespace SocialMediaAPI23Okt.Services
                         Messages = new List<Message> { newMessage }
                     };
 
-                    _context.Conversations.Add(newConversation);
-
-                    //myUser.ConversationsAsUser1.Add(newConversation);
-
-                    //otherUser.ConversationsAsUser2.Add(newConversation);
+                    _context.Conversations.Add(newConversation);                    
                 }
                 else
                 {
                     existingConversation.Messages.Add(newMessage);
-                } 
-                
-                //myUser.SentMessages.Add(newMessage);
+                }                
 
                 await _context.SaveChangesAsync();
 
@@ -96,28 +66,21 @@ namespace SocialMediaAPI23Okt.Services
             {
                 await transaction.RollbackAsync();
 
-                return new MessageResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Your messages is too long. It can only be max 1000 characters.",
-                    ErrorType = Enums.ErrorType.BadRequest
-                };
+                throw new ArgumentException("Your messages is too long. It can only be max 1000 characters.");                
             }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
+            //catch (Exception)
+            //{
+            //    await transaction.RollbackAsync();
 
-                return new MessageResponse
-                {
-                    Success = false,
-                    ErrorMessage = "An unexpected error occurred. Please try again later.",
-                    ErrorType = Enums.ErrorType.ServerError
-                };
-            }
+            //    throw new ApplicationException("An unexpected error occurred. Please try again later.");                
+            //}
              
             return new MessageResponse
-            {                
-                Success = true
+            {
+                Id = newMessage.Id,
+                Content = newMessage.Content,
+                SenderId = newMessage.SenderId,
+                SentAt = newMessage.SentAt
             };
             
         }

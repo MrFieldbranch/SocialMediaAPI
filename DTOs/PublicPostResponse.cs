@@ -10,7 +10,7 @@
 
         public DateTime CreatedAt { get; set; }        
 
-        public BasicUserResponse? User { get; set; }
+        public required BasicUserResponse User { get; set; }
        
     }
 }

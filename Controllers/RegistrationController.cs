@@ -18,12 +18,20 @@ namespace SocialMediaAPI23Okt.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewUser(CreateNewUserRequest request)
         {
-            var newUserResponse = await _registrationService.RegisterNewUserAsync(request);
+            try
+            {
+                bool newUserResponse = await _registrationService.RegisterNewUserAsync(request);
 
-            if (newUserResponse == null)
-                return BadRequest("There is already a user with this email registered.");
+                if (!newUserResponse)
+                    return BadRequest("There is already a user with this email registered.");
 
-            return Created();  // Kan det vara tomt? DTOn NewUserResponse är helt onödig nu.
+                return Created();   // Jag tror att det är ok att det är tomt innanför parenteserna.
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }

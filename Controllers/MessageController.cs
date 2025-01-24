@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI23Okt.DTOs;
+using SocialMediaAPI23Okt.Entities;
 using SocialMediaAPI23Okt.Services;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace SocialMediaAPI23Okt.Controllers
@@ -26,20 +29,28 @@ namespace SocialMediaAPI23Okt.Controllers
             if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
                 return Unauthorized("User ID is invalid or missing from the token.");
 
-            var response = await _messageService.SendMessageAsync(myUserId, otherUserId, messageRequest);
-
-            if (!response.Success)
+            try
             {
-                if (response.ErrorType == Enums.ErrorType.NotFound)
-                    return NotFound(response.ErrorMessage);
-                else if (response.ErrorType == Enums.ErrorType.BadRequest)
-                    return BadRequest(response.ErrorMessage);
-                else if (response.ErrorType == Enums.ErrorType.ServerError)
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.ErrorMessage);
-            }
-            
-            return Created();
-        }       
+                var response = await _messageService.SendMessageAsync(myUserId, otherUserId, messageRequest);
 
+                if (response == null)
+                    return NotFound("At least one of the users involved in this request is not found.");
+
+                return Created($"/message/{response.Id}", response);
+
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            //}                       
+        }
     }
 }

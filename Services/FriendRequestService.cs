@@ -70,245 +70,120 @@ namespace SocialMediaAPI23Okt.Services
         }
 
 
-        public async Task<OperationResponse> SendFriendRequestAsync(int myUserId, int otherUserId)
+        public async Task<bool> SendFriendRequestAsync(int myUserId, int otherUserId)
         {
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users involved in this request does not exist."
-                };
+            if (users.Count != 2)
+                return false;            
 
             bool friendsOrFriendRequestExists = await _context.UserFriends.AnyAsync(uf =>
                 (uf.UserId == myUserId && uf.FriendId == otherUserId) || (uf.UserId == otherUserId && uf.FriendId == myUserId));
 
             if (friendsOrFriendRequestExists)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "You are already friends with this person, or a friend request has already been sent by one of you."
-                };
+                throw new InvalidOperationException("You are already friends with this person, or a friend request has already been sent by one of you.");
 
-            try
+
+            // Jag har ingen try/catch här, eftersom det bara var databasfel som den fångade upp.
+            var newFriendRequest = new UserFriend
             {
-                var newFriendRequest = new UserFriend
-                {
-                    UserId = myUserId,
-                    FriendId = otherUserId,
-                    Status = Enums.FriendRequestStatus.Pending,
-                    RequestedAt = DateTime.UtcNow
-                };
+                UserId = myUserId,
+                FriendId = otherUserId,
+                Status = Enums.FriendRequestStatus.Pending,
+                RequestedAt = DateTime.UtcNow
+            };
 
-                _context.UserFriends.Add(newFriendRequest);                               
+            _context.UserFriends.Add(newFriendRequest);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new OperationResponse
-                {
-                    Success = true
-                };
-            }
-            catch
-            {
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Database error. Please try again later."
-                };
-            }
+            return true;
         }
 
 
-        public async Task<OperationResponse> AcceptFriendRequestAsync(int myUserId, int otherUserId)
+        public async Task<bool> AcceptFriendRequestAsync(int myUserId, int otherUserId)
         {
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users in this request does not exist.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+            if (users.Count != 2)
+                return false;            
 
             var friendRequestRecord = await _context.UserFriends.FirstOrDefaultAsync(uf =>
                 uf.UserId == otherUserId && uf.FriendId == myUserId && uf.Status == Enums.FriendRequestStatus.Pending);
 
             if (friendRequestRecord == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "No friend request exists from this user.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+                throw new InvalidOperationException("No friend request exists from this user, so you cannot accept it.");
 
-            try
-            {
-                friendRequestRecord.Status = Enums.FriendRequestStatus.Accepted;                
+            // Jag har ingen try/catch här, eftersom det bara var databasfel som den fångade upp.
+            friendRequestRecord.Status = Enums.FriendRequestStatus.Accepted;
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new OperationResponse
-                {
-                    Success = true
-                };
-            }
-            catch
-            {
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Database error. Please try again later.",
-                    ErrorType = Enums.ErrorType.ServerError
-                };
-            }            
+            return true;                      
         }
 
-        public async Task<OperationResponse> DeclineAndDeleteFriendRequestAsync(int myUserId, int otherUserId)
+        public async Task<bool> DeclineAndDeleteFriendRequestAsync(int myUserId, int otherUserId)
         {
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users in this request does not exist.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+            if (users.Count != 2)
+                return false;            
 
             var friendRequestRecord = await _context.UserFriends.FirstOrDefaultAsync(uf =>
                 (uf.UserId == otherUserId && uf.FriendId == myUserId && uf.Status == Enums.FriendRequestStatus.Pending));
 
             if (friendRequestRecord == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "No friend request exists from this user.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+                throw new InvalidOperationException("No friend request exists from this user, so you cannot decline it.");
 
-            try
-            {
-                _context.UserFriends.Remove(friendRequestRecord);                
+            // Jag har ingen try/catch här, eftersom det bara var databasfel som den fångade upp.
+            _context.UserFriends.Remove(friendRequestRecord);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new OperationResponse
-                {
-                    Success = true
-                };
-            }
-            catch
-            {
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Database error. Please try again later.",
-                    ErrorType = Enums.ErrorType.ServerError
-                };
-            }
+            return true;           
         }
 
-        public async Task<OperationResponse> WithdrawAndDeleteFriendRequestAsync(int myUserId, int otherUserId)
+        public async Task<bool> WithdrawAndDeleteFriendRequestAsync(int myUserId, int otherUserId)
         {
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users in this request does not exist.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+            if (users.Count != 2)
+                return false;            
 
             var friendRequestRecord = await _context.UserFriends.FirstOrDefaultAsync(uf =>
                 (uf.UserId == myUserId && uf.FriendId == otherUserId && uf.Status == Enums.FriendRequestStatus.Pending));
 
             if (friendRequestRecord == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "No friend request exists from you to this user.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+                throw new InvalidOperationException("No friend request exists from you to this user.");
 
-            try
-            {
-                _context.UserFriends.Remove(friendRequestRecord);                
+            // Jag har ingen try/catch här, eftersom det bara var databasfel som den fångade upp.
+            _context.UserFriends.Remove(friendRequestRecord);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new OperationResponse
-                {
-                    Success = true
-                };
-            }
-            catch
-            {
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Database error. Please try again later.",
-                    ErrorType = Enums.ErrorType.ServerError
-                };
-            }
+            return true;            
         }
 
-        public async Task<OperationResponse> CancelAndDeleteFriendshipAsync(int myUserId, int otherUserId)
+        public async Task<bool> CancelAndDeleteFriendshipAsync(int myUserId, int otherUserId)
         {
-            var myUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == myUserId);
+            var users = await _context.Users.Where(u => u.Id == myUserId || u.Id == otherUserId).ToListAsync();
 
-            var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
-
-            if (myUser == null || otherUser == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "At least one of the users in this request does not exist.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+            if (users.Count != 2)
+                return false;            
 
             var friendshipRecord = await _context.UserFriends.FirstOrDefaultAsync(uf =>
-                (uf.Status == Enums.FriendRequestStatus.Accepted) && ((uf.UserId == myUserId && uf.FriendId == otherUserId) || (uf.UserId == otherUserId && uf.FriendId == myUserId)));
+                (uf.Status == Enums.FriendRequestStatus.Accepted) && 
+                ((uf.UserId == myUserId && uf.FriendId == otherUserId) || (uf.UserId == otherUserId && uf.FriendId == myUserId)));
 
             if (friendshipRecord == null)
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "No friendship record exists with this user.",
-                    ErrorType = Enums.ErrorType.NotFound
-                };
+                throw new InvalidOperationException("No friendship record exists with this user.");
 
-            try
-            {
-                _context.UserFriends.Remove(friendshipRecord);                
+            // Jag har ingen try/catch här, eftersom det bara var databasfel som den fångade upp.
+            _context.UserFriends.Remove(friendshipRecord);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return new OperationResponse
-                {
-                    Success = true
-                };
-            }
-            catch
-            {
-                return new OperationResponse
-                {
-                    Success = false,
-                    ErrorMessage = "Database error. Please try again later.",
-                    ErrorType = Enums.ErrorType.ServerError
-                };
-            }
+            return true;            
         }
     }
 }
