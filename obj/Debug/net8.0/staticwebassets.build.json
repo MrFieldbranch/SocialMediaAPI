@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "70xDbQuyBLvrxYiouRivErPZOs2Zfqdmy0LjljdK2uQ=",
+  "Hash": "l6UjOYI80SWhRBAd8hbhGrfX4tnC6pdL+RxcdQxTYYw=",
   "Source": "SocialMediaAPI23Okt",
   "BasePath": "_content/SocialMediaAPI23Okt",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

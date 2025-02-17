@@ -21,7 +21,7 @@ namespace SocialMediaAPI23Okt.Controllers
             var tokenResponse = await _loginService.AuthenticateAsync(request);
 
             if (tokenResponse == null) 
-                return Unauthorized();
+                return Unauthorized("Incorrect login credentials");
             
             return Ok(tokenResponse);
         }

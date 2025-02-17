@@ -76,11 +76,8 @@ namespace SocialMediaAPI23Okt.Controllers
         {
             var myUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))
-            {
-                Console.WriteLine("Authorization header is missing or invalid");
-                return Unauthorized("User ID is invalid or missing from the token.");
-            }                
+            if (myUserIdClaim == null || !int.TryParse(myUserIdClaim.Value, out var myUserId))                
+                return Unauthorized("User ID is invalid or missing from the token.");                            
 
             var myUser = await _userService.GetMySelfAsync(myUserId);
 
