@@ -3,8 +3,13 @@ using SocialMediaAPI23Okt.Entities;
 
 namespace SocialMediaAPI23Okt.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext : DbContext
     {
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Interest> Interests { get; set; }
@@ -74,6 +79,5 @@ namespace SocialMediaAPI23Okt.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

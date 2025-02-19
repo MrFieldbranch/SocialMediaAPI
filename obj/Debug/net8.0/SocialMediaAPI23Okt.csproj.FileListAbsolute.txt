@@ -141,3 +141,9 @@ C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\SocialM
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets\msbuild.SocialMediaAPI23Okt.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
