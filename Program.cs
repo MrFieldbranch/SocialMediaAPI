@@ -5,13 +5,23 @@ using SocialMediaAPI23Okt.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables
+builder.Configuration.AddEnvironmentVariables();
+
+// Debugging: Check if environment variables are loaded
+Console.WriteLine("Reading environment variables...");
+Console.WriteLine($"DefaultConnection (from env): {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+Console.WriteLine($"JWT SigningSecret (from env): {Environment.GetEnvironmentVariable("JWT__SigningSecret")}");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
 
+// Add DbContext configuration for the PostgreSQL connection
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add JWT Authentication
 builder.Services
   .AddAuthentication()
   .AddJwtBearer(options =>
@@ -26,13 +36,12 @@ builder.Services
           ValidateIssuer = false,
           ValidateAudience = false,
           ValidateLifetime = false,
-          ValidateIssuerSigningKey = true,
-          //ValidIssuer = builder.Configuration["JWT:Issuer"],
-          //ValidAudience = builder.Configuration["JWT:Audience"],
+          ValidateIssuerSigningKey = true,          
           IssuerSigningKey = new SymmetricSecurityKey(signingKey)
       };
   });
 
+// Register services
 builder.Services.AddScoped<ConversationService>();
 builder.Services.AddScoped<FriendRequestService>();
 builder.Services.AddScoped<InterestService>();
@@ -43,7 +52,7 @@ builder.Services.AddScoped<PostToPublicBoardService>();
 builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<UserService>();
 
-
+// Add CORS
 builder.Services.AddCors();
 
 var app = builder.Build();
@@ -56,3 +65,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+// Debugging: Check final values used in the application
+Console.WriteLine($"Final DefaultConnection: {builder.Configuration["ConnectionStrings:DefaultConnection"]}");
+Console.WriteLine($"Final JWT SigningSecret: {builder.Configuration["JWT:SigningSecret"]}");
