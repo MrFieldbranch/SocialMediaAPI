@@ -1,5 +1,6 @@
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\appsettings.json
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\global.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\SocialMediaAPI23Okt.exe
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\SocialMediaAPI23Okt.deps.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\SocialMediaAPI23Okt.runtimeconfig.json
@@ -38,6 +39,8 @@ C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microso
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.dll
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\System.Composition.AttributedModel.dll
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\System.Composition.Convention.dll
@@ -122,6 +125,7 @@ C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialM
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.AssemblyInfo.cs
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.sourcelink.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets\msbuild.SocialMediaAPI23Okt.Microsoft.AspNetCore.StaticWebAssets.props
@@ -136,14 +140,3 @@ C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\refint\
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.pdb
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.genruntimeconfig.cache
 C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\ref\SocialMediaAPI23Okt.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\SocialMediaAPI23Okt.sourcelink.json
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\SocialMediaAPI23Okt.staticwebassets.endpoints.json
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets\msbuild.SocialMediaAPI23Okt.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
-C:\Users\User\Desktop\RefreshMemory\SocialMediaAPI23Okt\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
