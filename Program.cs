@@ -59,7 +59,11 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+//app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseCors(builder => builder
+    .WithOrigins("https://socialmediareactclient.onrender.com")
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
