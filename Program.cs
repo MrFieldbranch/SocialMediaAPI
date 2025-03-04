@@ -9,9 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 
 // Debugging: Check if environment variables are loaded
-Console.WriteLine("Reading environment variables...");
-Console.WriteLine($"DefaultConnection (from env): {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
-Console.WriteLine($"JWT SigningSecret (from env): {Environment.GetEnvironmentVariable("JWT__SigningSecret")}");
+//Console.WriteLine("Reading environment variables...");
+//Console.WriteLine($"DefaultConnection (from env): {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+//Console.WriteLine($"JWT SigningSecret (from env): {Environment.GetEnvironmentVariable("JWT__SigningSecret")}");
 
 // Add services to the container.
 
@@ -61,7 +61,7 @@ var app = builder.Build();
 
 //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseCors(builder => builder
-    .WithOrigins("https://socialmediareactclient.onrender.com")
+    .WithOrigins("https://socialmediareactclient.onrender.com", "http://localhost:5173")
     .AllowAnyHeader()
     .AllowAnyMethod());
 app.UseHttpsRedirection();
@@ -71,5 +71,5 @@ app.MapControllers();
 app.Run();
 
 // Debugging: Check final values used in the application
-Console.WriteLine($"Final DefaultConnection: {builder.Configuration["ConnectionStrings:DefaultConnection"]}");
-Console.WriteLine($"Final JWT SigningSecret: {builder.Configuration["JWT:SigningSecret"]}");
+//Console.WriteLine($"Final DefaultConnection: {builder.Configuration["ConnectionStrings:DefaultConnection"]}");
+//Console.WriteLine($"Final JWT SigningSecret: {builder.Configuration["JWT:SigningSecret"]}");
